@@ -4,4 +4,8 @@
  - css
  - js
 
-## 
+## take a look by open index.html
+
+## used IDE
+- VSCode
+- nvim
