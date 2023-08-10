@@ -4,7 +4,7 @@
  - css
  - js
 
-## take a look by open index.html
+## take a look by open [index.html](index.html)
 
 ## used IDE
 - VSCode
