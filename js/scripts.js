@@ -10,10 +10,10 @@ let pokeList = [
   { number: '009', name: 'Blastoise', height: "5'03\"", weight: 188.5, type: ['water'] }
 ];
 
-for (let i = 0; i < pokeList.length; i++) {
-  document.write(`${pokeList[i].name} (weight: ${pokeList[i].weight})`);
-  if (pokeList[i].weight > 50) {
+pokeList.forEach(pokemon => {
+  document.write(`${pokemon.name} (weight: ${pokemon.weight})`);
+  if (pokemon.weight > 50) {
     document.write(" - Wow, that’s heavy!");
   }
   document.write('<br>');
-}
+});
