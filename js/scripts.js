@@ -1,32 +1,72 @@
-
-let pokeRepo = (function() {
+let pokeRepo = (function () {
   let pokeList = [
-    { number: '001', name: 'Bulbasaur', height: "2'04\"", weight: 15.2, type: ['grass', 'poison'] },
-    { number: '002', name: 'Ivysaur', height: "3'03\"", weight: 28.7, type: ['grass', 'poison'] },
-    { number: '003', name: 'Venusaur', height: "6'07\"", weight: 220.5, type: ['grass', 'poison'] },
-    { number: '004', name: 'Charmander', height: "2'00\"", weight: 18.7, type: ['fire'] },
-    { number: '005', name: 'Charmeleon', height: "3'07\"", weight: 41.9, type: ['fire'] },
-    { number: '006', name: 'Charizard', height: "5'07\"", weight: 199.5, type: ['fire'] },
-    { number: '007', name: 'Squirtle', height: "1'08\"", weight: 19.8, type: ['water'] },
-    { number: '008', name: 'Wartortle', height: "3'03\"", weight: 49.6, type: ['water'] },
-    { number: '009', name: 'Blastoise', height: "5'03\"", weight: 188.5, type: ['water'] }
+    { no: '001', name: 'Bulbasaur', height: [2, 4], weight: 15.2, type: ['grass', 'poison'] },
+    { no: '002', name: 'Ivysaur', height: [3, 3], weight: 28.7, type: ['grass', 'poison'] },
+    { no: '003', name: 'Venusaur', height: [6, 7], weight: 220.5, type: ['grass', 'poison'] },
+    { no: '004', name: 'Charmander', height: [2, 0], weight: 18.7, type: ['fire'] },
+    { no: '005', name: 'Charmeleon', height: [3, 7], weight: 41.9, type: ['fire'] },
+    { no: '006', name: 'Charizard', height: [5, 7], weight: 199.5, type: ['fire'] },
+    { no: '007', name: 'Squirtle', height: [1, 8], weight: 19.8, type: ['water'] },
+    { no: '008', name: 'Wartortle', height: [3, 3], weight: 49.6, type: ['water'] },
+    { no: '009', name: 'Blastoise', height: [5, 3], weight: 188.5, type: ['water'] }
   ];
   return {
-    getAll: function() {
+    getAll: function () {
       return pokeList;
     },
-    add: function(pkmn) {
+    add: function (pkmn) {
+      const isString = value => typeof value === 'string';
+      const isNumber = value => typeof value === 'number';
+      const isValidHeight = value => Array.isArray(value) && value.length === 2 && isNumber(value[0]) && isNumber(value[1]);
+      const isValidTypeArray = value => Array.isArray(value) && value.every(isString);
+
+      if (!isString(pkmn.no)) {
+        console.error('Invalid Pokémon number:', pkmn.no);
+        return;
+      }
+
+      if (!isString(pkmn.name)) {
+        console.error('Invalid Pokémon name:', pkmn.name);
+        return;
+      }
+
+      if (!isValidHeight(pkmn.height)) {
+        console.error('Invalid Pokémon height:', pkmn.height);
+        return;
+      }
+
+      if (!isNumber(pkmn.weight)) {
+        console.error('Invalid Pokémon weight:', pkmn.weight);
+        return;
+      }
+
+      if (!isValidTypeArray(pkmn.type)) {
+        console.error('Invalid Pokémon type:', pkmn.type);
+        return;
+      }
+
       pokeList.push(pkmn);
-    }
+    },
+
+    addListItem: function (pkmn) {
+      let listItem = document.createElement('li');
+      listItem.classList.add('pokeItem');
+
+      let button = document.createElement('button');
+      button.classList.add('pokeBtn');
+      button.innerText = pkmn.name;
+
+      listItem.appendChild(button);
+      document.querySelector('.pokeList').appendChild(listItem);
+
+      button.addEventListener('click', () =>  showDetails(pkmn));
+    },
   };
+  
 })();
 
-pokeRepo.add({ number: '025', name: 'Pikachu', height: "1'04\"", weight: 13.2, type: ['electric'] });
+const showDetails = pokemon => {console.log(pokemon);};
 
-pokeRepo.getAll().forEach(pkmn => {
-  document.write(`${pkmn.name} (weight: ${pkmn.weight})`);
-  if (pkmn.weight > 50) {
-    document.write(" - Wow, that’s heavy!");
-  }
-  document.write('<br>');
-});
+pokeRepo.add({ no: '025', name: 'Pikachu', height: [1, 4], weight: 13.2, type: ['electric'] });
+
+pokeRepo.getAll().forEach(pkmn => {pokeRepo.addListItem(pkmn)})
