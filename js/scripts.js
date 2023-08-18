@@ -15,37 +15,27 @@ let pokeRepo = (function () {
       return pokeList;
     },
     add: function (pkmn) {
-      const isString = value => typeof value === 'string';
-      const isNumber = value => typeof value === 'number';
-      const isValidHeight = value => Array.isArray(value) && value.length === 2 && isNumber(value[0]) && isNumber(value[1]);
-      const isValidTypeArray = value => Array.isArray(value) && value.every(isString);
-
-      if (!isString(pkmn.no)) {
-        console.error('Invalid Pokémon number:', pkmn.no);
-        return;
+      const validate = (value, type, errorMessage) => {
+        if (typeof value !== type) {
+          console.error(errorMessage, value);
+          return false;
+        }
+        return true;
+      };
+    
+      if (
+        validate(pkmn.no, 'string', 'Invalid Pokémon number:') &&
+        validate(pkmn.name, 'string', 'Invalid Pokémon name:') &&
+        validate(pkmn.height, 'object', 'Invalid Pokémon height:') && pkmn.height.length === 2 &&
+        validate(pkmn.height[0], 'number', 'Invalid Pokémon height:') &&
+        validate(pkmn.height[1], 'number', 'Invalid Pokémon height:') &&
+        validate(pkmn.weight, 'number', 'Invalid Pokémon weight:') &&
+        validate(pkmn.type, 'object', 'Invalid Pokémon type:') &&
+        Array.isArray(pkmn.type) &&
+        pkmn.type.every(type => validate(type, 'string', 'Invalid Pokémon type:'))
+      ) {
+        pokeList.push(pkmn);
       }
-
-      if (!isString(pkmn.name)) {
-        console.error('Invalid Pokémon name:', pkmn.name);
-        return;
-      }
-
-      if (!isValidHeight(pkmn.height)) {
-        console.error('Invalid Pokémon height:', pkmn.height);
-        return;
-      }
-
-      if (!isNumber(pkmn.weight)) {
-        console.error('Invalid Pokémon weight:', pkmn.weight);
-        return;
-      }
-
-      if (!isValidTypeArray(pkmn.type)) {
-        console.error('Invalid Pokémon type:', pkmn.type);
-        return;
-      }
-
-      pokeList.push(pkmn);
     },
 
     addListItem: function (pkmn) {
