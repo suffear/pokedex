@@ -28,7 +28,9 @@ html {
 .pokeItem {
     margin-bottom: 10px;
 }
-
+.pokeImg { 
+    display: block;
+}
 .pokeBtn {
     display: block;
     margin: 5px;

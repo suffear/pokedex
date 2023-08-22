@@ -25,6 +25,7 @@ const pokeRepo = (function () {
         add({
           name: details.name,
           detailsUrl: item.url,
+          imgUrl: details.sprites.front_default,
         });
       }));
       displayPokeList();
@@ -38,7 +39,6 @@ const pokeRepo = (function () {
     showLoadMsg();
     try {
       const details = await fetchJSON(pkmn.detailsUrl);
-      pkmn.imgUrl = details.sprites.front_default;
       pkmn.height = details.height;
       hideLoadMsg();
     } catch (error) {
@@ -70,6 +70,11 @@ const pokeRepo = (function () {
       const button = document.createElement('button');
       button.classList.add('pokeBtn');
       button.innerText = caps(pkmn.name);
+      const img = document.createElement('img');
+      img.classList.add('pokeImg');
+      img.src = pkmn.imgUrl;
+      img.alt = pkmn.name;
+      button.appendChild(img);
       button.addEventListener('click', showDetails(pkmn));
       listItem.appendChild(button);
       list.appendChild(listItem);
