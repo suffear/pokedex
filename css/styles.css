@@ -1,16 +1,21 @@
 html {
     background-color: #111;
+    font-family: 'Roboto Flex',arial,sans-serif;
 }
 
 .headline {
-    font-family: 'Roboto Flex',arial,sans-serif;
+    
     color: #fff;
     text-align: center;
     margin: 0;
     padding: 20px;
     background-color: #151515;
 }
-
+.loadMsg {
+    color: #fff;
+    font-size: 3em;
+    text-align: center;
+}
 .pokeList {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -25,7 +30,6 @@ html {
 }
 
 .pokeBtn {
-    font-family: 'Roboto Flex',arial,sans-serif;
     display: block;
     margin: 5px;
     padding: 8px 12px;
