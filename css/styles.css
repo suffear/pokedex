@@ -1,7 +1,7 @@
 html {
     background-color: #111;
     font-family: 'Roboto Flex', arial, sans-serif;
-    font-size: 2vw;
+    font-size: clamp(12px, 1vw, 20px);
 }
 
 .headline {
@@ -104,6 +104,7 @@ html {
 
 .modal p {
     margin-top: 10px;
+    
 }
 
 .modal img {

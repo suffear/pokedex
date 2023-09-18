@@ -25,23 +25,32 @@ const pokeRepo = (function () {
   async function loadList() {
     showLoadMsg();
     try {
-      const data = await fetchJSON(apiUrl);
-      await Promise.all(data.results.map(async item => {
-        const details = await fetchJSON(item.url);
-        add({
-          name: details.name,
-          detailsUrl: item.url,
-          gifUrl: details.sprites.versions['generation-v']['black-white'].animated['front_default'],
-        });
-      }));
-      hideLoadMsg();
-      displayPokeList();
-      await Promise.all(pokeList.map(loadDetails));
+        const data = await fetchJSON(apiUrl);
+        const pkmn = await Promise.all(data.results.map(async item => {
+            const details = await fetchJSON(item.url);
+            return {
+                id: details.id,
+                name: details.name,
+                detailsUrl: item.url,
+                gifUrl: details.sprites.versions['generation-v']['black-white'].animated['front_default'],
+            };
+        }));
+        
+        // Sort the Pokémon details array by ID in ascending order
+        pkmn.sort((a, b) => a.id - b.id);
+
+        // Add sorted details to the pokeList
+        pkmn.forEach(add);
+
+        hideLoadMsg();
+        displayPokeList();
+        await Promise.all(pokeList.map(loadDetails));
     } catch (error) {
-      console.error(error);
-      hideLoadMsg();
+        console.error(error);
+        hideLoadMsg();
     }
-  }
+}
+
 
   async function loadDetails(pkmn) {
     let url = pkmn.detailsUrl;
@@ -105,10 +114,11 @@ const pokeRepo = (function () {
     closeBtnElement.addEventListener('click', hideModal);
 
     let titleElement = document.createElement('h1');
-    titleElement.innerText = pkmn.name;
+    titleElement.innerText = pkmn.name + ' (ID: ' + pkmn.id + ')';
 
     let contentElement = document.createElement('p');
     contentElement.innerText = 'Height: ' + pkmn.height;
+    contentElement.innerText += ' | Weight: ' + pkmn.weight;
 
     let imageElement = document.createElement('img');
     imageElement.src = pkmn.imgUrl;
