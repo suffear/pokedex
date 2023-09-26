@@ -1,4 +1,12 @@
-html {
+.page-container {
+    margin-top: 150px;
+}
+.center{
+    margin: auto 0;
+}
+
+
+/* html {
     background-color: #111;
     font-family: 'Roboto Flex', arial, sans-serif;
     font-size: clamp(12px, 1vw, 20px);
@@ -111,7 +119,7 @@ html {
     display: block;
     margin: 0 auto;
     max-width: 100%;
-    width: 200px; /* You can adjust the width as needed */
+    width: 200px; 
     height: auto;
     margin-top: 20px;
 }
@@ -140,4 +148,4 @@ html {
     .pokeList {
         gap: 1.1rem;
     }
-}
+} */
