@@ -1,23 +1,27 @@
 const pokeRepo = (function () {
   let pokeList = [];
-  // API URL, change Nr of Pokémon to load by changing the limit parameter 
   let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
-  let modalContainer = $('#modalContainer'); // Use jQuery to select the modal container
+  let modalContainer = $('#modalContainer');
 
-  // Show loading message using jQuery
+  // Show loading message
   function showLoadMsg() {
     $('<p class="loadMsg">Loading...</p>').appendTo('body');
   }
 
-  // Hide loading message using jQuery
+  // Hide loading message
   function hideLoadMsg() {
     $('body > p.loadMsg').remove();
   }
 
   // Fetch JSON data from API
   async function fetchJSON(url) {
-    const response = await fetch(url);
-    return await response.json();
+    try {
+      const response = await fetch(url);
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching JSON:', error);
+      throw error; // Rethrow the error to handle it in the caller
+    }
   }
 
   // Load list of Pokémon from API
@@ -34,15 +38,13 @@ const pokeRepo = (function () {
           gifUrl: details.sprites.versions['generation-v']['black-white'].animated['front_default'],
         };
       }));
-      // Sort the Pokémon details array by ID in ascending order
       pkmn.sort((a, b) => a.id - b.id);
-      // Add sorted details to the pokeList
       pkmn.forEach(add);
       hideLoadMsg();
       displayPokeList();
       await Promise.all(pokeList.map(loadDetails));
     } catch (error) {
-      console.error(error);
+      console.error('Error loading Pokémon list:', error);
       hideLoadMsg();
     }
   }
@@ -57,11 +59,11 @@ const pokeRepo = (function () {
       pkmn.weight = details.weight;
       pkmn.types = details.types;
     } catch (error) {
-      console.error(error);
+      console.error('Error loading Pokémon details:', error);
     }
   }
 
-  // Add Pokémon to pokeList
+  // Function to add Pokémon to the pokeList
   function add(pkmn) {
     if (typeof pkmn === 'object') {
       pokeList.push(pkmn);
@@ -72,76 +74,39 @@ const pokeRepo = (function () {
 
   // Display list of Pokémon
   function displayPokeList() {
-    const list = $('#pokeList'); // Use jQuery to select the list container
+    const list = $('#pokeList');
     pokeList.forEach(pkmn => {
-      // Create list item using jQuery
       const listItem = $('<li>').addClass('list-group-item col-sm-6 col-md-4 col-lg-3 col-xl-2');
-      
-      // Create button using jQuery
       const btn = $('<button>').addClass('btn btn-dark btn-outline-light').text(pkmn.name);
-      
-      // Create image using jQuery
       const img = $('<img>').addClass('img-fluid').attr('src', pkmn.gifUrl).attr('alt', pkmn.name);
-      
-      // Append elements using jQuery
       btn.append(img);
       listItem.append(btn);
-      
-      // Add click event using jQuery
       btn.on('click', () => showModal(pkmn));
-      
-      // Append list item to the list container using jQuery
       list.append(listItem);
     });
   }
 
   // Show details of clicked Pokémon
   function showModal(pkmn) {
-    modalContainer.empty(); // Use jQuery to clear the modal container
-
-    // Create the modal using jQuery
+    modalContainer.empty();
     let modal = $('<div>').addClass('modal fade').attr('tabindex', '-1').attr('role', 'dialog');
-    
-    // Create the modal dialog using jQuery
     let modalDialog = $('<div>').addClass('modal-dialog').attr('role', 'document');
-    
-    // Create the modal content using jQuery
     let modalContent = $('<div>').addClass('bg-dark text-light modal-content');
-    
-    // Create the close button (X) using jQuery
-    let closeBtnElement = $('<button>').attr('type', 'button').addClass('close').attr('data-dismiss', 'modal').html('&times;');
-    
-    // Create the modal header using jQuery
+    let closeBtnElement = $('<button>').attr('type', 'button').addClass('btn btn-dark').attr('data-bs-dismiss', 'modal').html('&times;');
     let modalHeader = $('<div>').addClass('modal-header');
-    
-    // Create the title element using jQuery
     let titleElement = $('<h5>').addClass('modal-title').text(pkmn.name + ' (ID: ' + pkmn.id + ')');
-    
-    // Create the modal body using jQuery
     let modalBody = $('<div>').addClass('modal-body');
-    
-    // Create content elements using jQuery
     let contentElement = $('<p>').text('Height: ' + pkmn.height + ' | Weight: ' + pkmn.weight);
-    
     let imageElement = $('<img>').attr('src', pkmn.imgUrl).attr('alt', pkmn.name);
-    
-    // Append elements using jQuery
     modalHeader.append(titleElement);
     modalHeader.append(closeBtnElement);
-    
     modalBody.append(contentElement);
     modalBody.append(imageElement);
-    
     modalContent.append(modalHeader);
     modalContent.append(modalBody);
-    
     modalDialog.append(modalContent);
-    
     modal.append(modalDialog);
-    
     modalContainer.append(modal);
-    
-    // Show the modal using jQuery
     modal.modal('show');
   }
 
