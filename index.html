@@ -13,11 +13,15 @@
 </head>
 
 <body class="bg-dark">
-    <nav class="navbar bg-dark fixed-top">
-        <div class="navbar-text">
-            <img src="./img/pkmnLogo.svg" class="" width="150px" class="" alt="">
+    <nav class="navbar navbar-dark bg-dark static-top">
+        <div class="container d-flex justify-content-center">
+            <div class="navbar-brand d-flex flex-column flex-lg-row align-items-center">
+                <img src="./img/pkmnLogoLight.svg" class="logo" width="150px" alt="Official Pokemon Logo">
+                <input type="text" id="searchBar" class="form-control bg-dark text-light search-bar" placeholder="Search Pokémon...">
+            </div>
         </div>
     </nav>
+
     <main class="page-container">
         <ul class="list-group-flush row" id="pokeList"></ul>
     </main>

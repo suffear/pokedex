@@ -72,10 +72,15 @@ const pokeRepo = (function () {
     }
   }
 
-  // Display list of Pokémon
-  function displayPokeList() {
+  // Display list of Pokémon that matches the input from the search bar, if empty display all Pokémon
+  function displayPokeList(filterTerm = '') {
     const list = $('#pokeList');
-    pokeList.forEach(pkmn => {
+    list.empty(); // Clear the list before displaying filtered Pokémon
+    const filteredPokeList = filterTerm
+      ? pokeList.filter(pkmn => pkmn.name.toLowerCase().includes(filterTerm.toLowerCase()))
+      : pokeList;
+
+    filteredPokeList.forEach(pkmn => {
       const listItem = $('<li>').addClass('list-group-item col-sm-6 col-md-4 col-lg-3 col-xl-2');
       const btn = $('<button>').addClass('btn btn-dark btn-outline-light').text(pkmn.name);
       const img = $('<img>').addClass('img-fluid').attr('src', pkmn.gifUrl).attr('alt', pkmn.name);
@@ -85,6 +90,13 @@ const pokeRepo = (function () {
       list.append(listItem);
     });
   }
+
+  // Event listener for search bar
+  const searchBar = $('#searchBar');
+  searchBar.on('input', () => {
+    const filterTerm = searchBar.val();
+    displayPokeList(filterTerm);
+  });
 
   // Show details of clicked Pokémon
   function showModal(pkmn) {
