@@ -2,17 +2,14 @@ const pokeRepo = (function () {
   let pokeList = [];
   let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
   let modalContainer = $('#modalContainer');
-
   // Show loading message
   function showLoadMsg() {
     $('<p class="loadMsg">Loading...</p>').appendTo('body');
   }
-
   // Hide loading message
   function hideLoadMsg() {
     $('body > p.loadMsg').remove();
   }
-
   // Fetch JSON data from API
   async function fetchJSON(url) {
     try {
@@ -23,7 +20,6 @@ const pokeRepo = (function () {
       throw error; // Rethrow the error to handle it in the caller
     }
   }
-
   // Load list of Pokémon from API
   async function loadList() {
     showLoadMsg();
@@ -48,7 +44,6 @@ const pokeRepo = (function () {
       hideLoadMsg();
     }
   }
-
   // Load details of each Pokémon
   async function loadDetails(pkmn) {
     let url = pkmn.detailsUrl;
@@ -62,7 +57,6 @@ const pokeRepo = (function () {
       console.error('Error loading Pokémon details:', error);
     }
   }
-
   // Function to add Pokémon to the pokeList
   function add(pkmn) {
     if (typeof pkmn === 'object') {
@@ -71,47 +65,32 @@ const pokeRepo = (function () {
       console.error('Invalid Pokémon data format:', pkmn);
     }
   }
-
   // Display list of Pokémon that matches the input from the search bar, if empty display all Pokémon
   function displayPokeList(filterTerm = '') {
-  const list = $('#pokeList');
-  list.empty(); // Clear the list before displaying filtered Pokémon
-  const filteredPokeList = filterTerm
-    ? pokeList.filter(pkmn => pkmn.name.toLowerCase().includes(filterTerm.toLowerCase()))
-    : pokeList;
-
-  filteredPokeList.forEach(pkmn => {
-    const listItem = $('<li>').addClass('list-group-item col-sm-4 col-md-3 col-lg-2 col-xl-1 d-flex justify-content-center');
-    const btn = $('<button>').addClass('btn btn-dark btn-outline-light my-4');
-    const img = $('<img>').addClass('img-fluid').attr('src', pkmn.gifUrl).attr('alt', pkmn.name);
-
-    // Capitalize the first letter of the name
-    const capitalized = pkmn.name.charAt(0).toUpperCase() + pkmn.name.slice(1);
-
-    const nameDiv = $('<div>').text(capitalized); // Use the capitalized name
-
-    btn.append(img);
-    btn.append(nameDiv);
-
-    listItem.append(btn);
-    listItem.on('click', () => showModal(pkmn));
-    list.append(listItem);
-  });
-}
-
-  
-  
-  
-  
-  
-
+    const list = $('#pokeList');
+    list.empty();
+    const filteredPokeList = filterTerm
+      ? pokeList.filter(pkmn => pkmn.name.toLowerCase().includes(filterTerm.toLowerCase()))
+      : pokeList;
+    filteredPokeList.forEach(pkmn => {
+      const listItem = $('<li>').addClass('list-group-item col-6 col-sm-4 col-md-3 col-lg-2 col-xl-1 ml-2');
+      const btn = $('<button>').addClass('btn btn-dark btn-outline-light my-4');
+      const img = $('<img>').addClass('img-fluid').attr('src', pkmn.gifUrl).attr('alt', pkmn.name);
+      const capitalized = pkmn.name.charAt(0).toUpperCase() + pkmn.name.slice(1);
+      const nameDiv = $('<div>').text(capitalized);
+      btn.append(img);
+      btn.append(nameDiv);
+      listItem.append(btn);
+      listItem.on('click', () => showModal(pkmn));
+      list.append(listItem);
+    });
+  }
   // Event listener for search bar
   const searchBar = $('#searchBar');
   searchBar.on('input', () => {
     const filterTerm = searchBar.val();
     displayPokeList(filterTerm);
   });
-
   // Show details of clicked Pokémon
   function showModal(pkmn) {
     modalContainer.empty();
@@ -135,11 +114,9 @@ const pokeRepo = (function () {
     modalContainer.append(modal);
     modal.modal('show');
   }
-
   return {
     add,
     loadList,
   };
 })();
-
 pokeRepo.loadList();
