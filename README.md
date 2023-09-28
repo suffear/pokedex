@@ -6,6 +6,6 @@
 
 ## take a look by open [index.html](index.html)
 
-## used IDE
+## used IDE/PDE
 - VSCode
 - nvim
