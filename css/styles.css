@@ -1,11 +1,13 @@
+body {
+    overflow-x: hidden;
+}
 .page-container {
     margin-top: 10px;
 }
 .btn {
-    width: 80%; 
-    height: 80%; 
-  }
-  body {
-    overflow-x: hidden;
-  }
-  
+    width: 80%;
+    height: 80%;
+}
+#searchbar::placeholder {
+    color: white;
+}
