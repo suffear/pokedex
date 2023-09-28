@@ -30,3 +30,7 @@ This web app has been tested in various common web browsers to ensure compatibil
 - Mozilla Firefox
 - Microsoft Edge
 - Safari
+
+##Featuresi esnt to add in the Future
+
+- Allow users to select which generation(s) of Pokémon they want to view. If feasible, provide toggles for multiple selections.
