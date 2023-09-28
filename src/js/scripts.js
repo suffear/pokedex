@@ -17,7 +17,7 @@ const pokeRepo = (function () {
       return await response.json();
     } catch (error) {
       console.error('Error fetching JSON:', error);
-      throw error; // Rethrow the error to handle it in the caller
+      throw error;
     }
   }
   // Load list of Pokémon from API
