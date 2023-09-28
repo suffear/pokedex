@@ -74,22 +74,36 @@ const pokeRepo = (function () {
 
   // Display list of Pokémon that matches the input from the search bar, if empty display all Pokémon
   function displayPokeList(filterTerm = '') {
-    const list = $('#pokeList');
-    list.empty(); // Clear the list before displaying filtered Pokémon
-    const filteredPokeList = filterTerm
-      ? pokeList.filter(pkmn => pkmn.name.toLowerCase().includes(filterTerm.toLowerCase()))
-      : pokeList;
+  const list = $('#pokeList');
+  list.empty(); // Clear the list before displaying filtered Pokémon
+  const filteredPokeList = filterTerm
+    ? pokeList.filter(pkmn => pkmn.name.toLowerCase().includes(filterTerm.toLowerCase()))
+    : pokeList;
 
-    filteredPokeList.forEach(pkmn => {
-      const listItem = $('<li>').addClass('list-group-item col-sm-6 col-md-4 col-lg-3 col-xl-2');
-      const btn = $('<button>').addClass('btn btn-dark btn-outline-light').text(pkmn.name);
-      const img = $('<img>').addClass('img-fluid').attr('src', pkmn.gifUrl).attr('alt', pkmn.name);
-      btn.append(img);
-      listItem.append(btn);
-      btn.on('click', () => showModal(pkmn));
-      list.append(listItem);
-    });
-  }
+  filteredPokeList.forEach(pkmn => {
+    const listItem = $('<li>').addClass('list-group-item col-sm-4 col-md-3 col-lg-2 col-xl-1 d-flex justify-content-center');
+    const btn = $('<button>').addClass('btn btn-dark btn-outline-light my-4');
+    const img = $('<img>').addClass('img-fluid').attr('src', pkmn.gifUrl).attr('alt', pkmn.name);
+
+    // Capitalize the first letter of the name
+    const capitalized = pkmn.name.charAt(0).toUpperCase() + pkmn.name.slice(1);
+
+    const nameDiv = $('<div>').text(capitalized); // Use the capitalized name
+
+    btn.append(img);
+    btn.append(nameDiv);
+
+    listItem.append(btn);
+    listItem.on('click', () => showModal(pkmn));
+    list.append(listItem);
+  });
+}
+
+  
+  
+  
+  
+  
 
   // Event listener for search bar
   const searchBar = $('#searchBar');
